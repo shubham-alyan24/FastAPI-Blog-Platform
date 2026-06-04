@@ -1,0 +1,37 @@
+{# Use layout.html as the base template (navbar, footer, etc.) #}
+{% extends "layout.html" %}
+
+{# Fill the "content" block defined in layout.html #}
+{% block content %}
+  {# Loop over the list of posts passed from FastAPI #}
+  {% for post in posts %}
+    <!-- Single post card -->
+    <article class="content-section py-3 px-4 mb-4">
+      <div class="d-flex align-items-start gap-4">
+        <!-- Author avatar image (currently a static default profile picture) -->
+        <img
+          class="rounded-circle article-img flex-shrink-0"
+          src="/static/profile_pics/default.jpg"
+          alt="{{ post.author }}'s profile picture"
+          width="64"
+          height="64"
+          loading="lazy"
+        >
+        <!-- Main post content -->
+        <div class="flex-grow-1">
+          <!-- Metadata: author name and date -->
+          <div class="article-metadata mb-2">
+            <a class="me-2" href="#">{{ post.author }}</a>
+            <small class="text-body-secondary">{{ post.date_posted }}</small>
+          </div>
+          <!-- Post title (could later link to a detail page) -->
+          <h2>
+            <a class="article-title" href="#">{{ post.title }}</a>
+          </h2>
+          <!-- Post body text -->
+          <p class="article-content">{{ post.content }}</p>
+        </div>
+      </div>
+    </article>
+  {% endfor %}
+{% endblock content %}

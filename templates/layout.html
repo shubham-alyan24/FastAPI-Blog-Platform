@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Basic document setup: character encoding and responsive behavior -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site Info: dynamic title based on "title" variable passed from FastAPI -->
+    {% if title %}
+      <title>FastAPI Blog - {{ title }}</title>
+    {% else %}
+      <title>FastAPI Blog</title>
+    {% endif %}
+    <meta name="description" content="FastAPI Tutorial">
+    <meta name="author" content="Corey Schafer">
+
+    <!-- Open Graph tags for better previews when sharing on social media -->
+    <meta property="og:title" content="FastAPI Blog">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <meta property="og:image:alt" content="">
+
+    <!-- Preconnect to Google Fonts for faster font loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Custom font families used across the site -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    >
+
+    <!-- Bootstrap CSS from CDN for layout and components -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    >
+
+    <!-- Our custom stylesheet for overriding Bootstrap and adding custom styles -->
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+
+    <!-- Browser theme color (for mobile address bar color, etc.) -->
+    <meta name="theme-color" content="#527c9f">
+
+    <!-- Favicons and app icons for different devices and formats -->
+    <link rel="icon" href="/static/icons/favicon.ico" sizes="any">
+    <link rel="icon" href="/static/icons/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/icon.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+  </head>
+
+  <!-- Flex layout so footer sticks to bottom (mt-auto on footer) -->
+  <body class="d-flex flex-column min-vh-100">
+    <header class="site-header">
+      <!-- Main navigation bar at the top -->
+      <nav
+        class="navbar navbar-expand-md bg-steel fixed-top"
+        data-bs-theme="dark"
+      >
+        <div class="container">
+          <!-- Brand / logo linking back to home route -->
+          <a class="navbar-brand me-4" href="{{ url_for('home') }}">FastAPI Blog</a>
+
+          <!-- Mobile toggle button for collapsing the navbar -->
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarToggle"
+            aria-controls="navbarToggle"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Collapsible navbar content -->
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <!-- Left side of navbar: main navigation links -->
+            <div class="navbar-nav me-auto">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="{{ url_for('home') }}"
+              >
+                Home
+              </a>
+            </div>
+
+            <!-- Right side of navbar: auth buttons and theme dropdown -->
+            <div class="navbar-nav">
+              <!-- Placeholder buttons for login/register (not wired yet) -->
+              <a class="btn btn-outline-light mb-2 mb-md-0 me-md-2" href="#">Login</a>
+              <a class="btn btn-light mb-2 mb-md-0 me-md-3" href="#">Register</a>
+
+              <!-- Theme dropdown: Light / Dark / Auto -->
+              <div class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  id="bd-theme"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <!-- Text updated dynamically by JS based on selected theme -->
+                  <span id="bd-theme-text">🌗 Auto</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme">
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      data-bs-theme-value="light"
+                    >
+                      🌝 Light
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      data-bs-theme-value="dark"
+                    >
+                      🌚 Dark
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      data-bs-theme-value="auto"
+                    >
+                      🌗 Auto
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main page content area -->
+    <main role="main" class="container">
+      <div class="row">
+        <!-- Left column: template-specific content from child templates -->
+        <div class="col-md-8">
+          {% block content %}
+          {% endblock content %}
+        </div>
+
+        <!-- Right column: static sidebar -->
+        <aside class="col-md-4">
+          <div class="content-section py-3 px-4 mb-4">
+            <h3>Our Sidebar</h3>
+            <p class="text-body-secondary">
+              You can put any information here you'd like.
+            </p>
+            <ul class="list-group">
+              <li class="list-group-item">Latest Posts</li>
+              <li class="list-group-item">Announcements</li>
+              <li class="list-group-item">Calendars</li>
+              <li class="list-group-item">etc</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <!-- Footer sticks to bottom due to flex layout + mt-auto -->
+    <footer class="mt-auto py-3 bg-body-tertiary border-top">
+      <div class="container text-center">
+        <p class="text-body-secondary mb-0">
+          © <span id="year"></span> Corey Schafer
+        </p>
+      </div>
+    </footer>
+
+    <!-- Small script to always show current year in footer -->
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+    <!-- Bootstrap JS bundle (includes Popper) for navbar and dropdowns -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Theme toggle logic: handles Light/Dark/Auto modes and stores choice -->
+    <script>
+      const setTheme = (theme) => {
+        // If auto is selected, follow system preference
+        if (theme === 'auto') {
+          document.documentElement.setAttribute(
+            'data-bs-theme',
+            window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+          );
+        } else {
+          // Otherwise force light or dark explicitly
+          document.documentElement.setAttribute('data-bs-theme', theme);
+        }
+
+        // Persist the selected theme in localStorage
+        localStorage.setItem('theme', theme);
+
+        // Update dropdown text to match current theme
+        const themeText = {
+          light: '🌝 Light',
+          dark: '🌚 Dark',
+          auto: '🌗 Auto',
+        };
+        document.getElementById('bd-theme-text').textContent = themeText[theme];
+      };
+
+      // Attach click handlers to all dropdown items
+      document
+        .querySelectorAll('[data-bs-theme-value]')
+        .forEach((button) => {
+          button.addEventListener('click', () =>
+            setTheme(button.getAttribute('data-bs-theme-value'))
+          );
+        });
+
+      // Initialize theme on page load from localStorage (default to auto)
+      setTheme(localStorage.getItem('theme') || 'auto');
+    </script>
+  </body>
+</html>
