@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 from fastapi import FastAPI, Request , HTTPException , status 
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.exceptions import HTTPException as StarletteHTTPException
+=======
+from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+>>>>>>> a5445d5f46bb4dad569f4927a9ffd7efe07b64f4
 
 posts: list[dict] = [
     {
@@ -39,6 +45,7 @@ def home(request: Request):
     context={"posts": posts, "title": "Home"},
 )
 
+<<<<<<< HEAD
 @app.get("/posts/{post_id}",include_in_schema=False)
 def post_page(request:Request ,post_id : int):
     for post in posts:
@@ -52,6 +59,8 @@ def post_page(request:Request ,post_id : int):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND
                         ,detail="post not found")
 
+=======
+>>>>>>> a5445d5f46bb4dad569f4927a9ffd7efe07b64f4
 @app.get("/api/posts")
 def get_posts():
     return posts
@@ -61,6 +70,7 @@ def get_post(post_id : int):
     for post in posts:
         if post.get("id") == post_id:
             return post
+<<<<<<< HEAD
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND
                         ,detail="post not found")
 
@@ -107,3 +117,6 @@ def validation_exception_handler(request: Request, exception: RequestValidationE
         },
         status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
     )
+=======
+    return {"error" : "post not found"}
+>>>>>>> a5445d5f46bb4dad569f4927a9ffd7efe07b64f4

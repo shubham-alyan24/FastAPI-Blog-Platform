@@ -13,6 +13,7 @@ posts: list[dict] = [
         "content": "Python is a great language for web development, and FastAPI makes it even better.",
         "date_posted": "April 21, 2025",
     },
+<<<<<<< HEAD
 ]
 
 ## StarletteHTTPException Handler
@@ -59,3 +60,6 @@ def validation_exception_handler(request: Request, exception: RequestValidationE
         },
         status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
     )
+=======
+]
+>>>>>>> a5445d5f46bb4dad569f4927a9ffd7efe07b64f4
