@@ -1,7 +1,7 @@
 import asyncio
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
-
+from database import AsyncSessionLocal, engine, Base
 import httpx
 from sqlalchemy import delete, select, update
 
@@ -232,8 +232,11 @@ POST_44 = {
     "content": "If you've paginated all the way to this post, the 44th one... you get to learn this fun fact: that my high school football number was #44. Other notable absolute legends who wore number #44 include: Jerry West (NBA - Also fellow WV Native), Hank Aaron (MLB), and Floyd Little (NFL).",
 }
 
-
 async def clear_existing_data() -> None:
+    # Ensure all tables exist before trying to delete from them
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+        
     # Delete profile pictures from local storage
     if PROFILE_PICS_DIR.exists():
         for file in PROFILE_PICS_DIR.iterdir():
@@ -243,6 +246,7 @@ async def clear_existing_data() -> None:
 
     # Clear database tables (order respects foreign keys)
     async with AsyncSessionLocal() as db:
+        await db.execute(delete(models.PasswordResetToken))
         await db.execute(delete(models.Post))
         await db.execute(delete(models.User))
         await db.commit()
