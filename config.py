@@ -1,5 +1,6 @@
 from pydantic import SecretStr
-from pydantic_settings import BaseSettings , SettingsConfigDict
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -9,7 +10,11 @@ class Settings(BaseSettings):
 
     secret_key: SecretStr
     algorithm: str = "HS256"
-    access_token_expire_minutes: int=30
+    access_token_expire_minutes: int = 30
+
     max_upload_size_bytes: int = 5 * 1024 * 1024
 
-settings = Settings() # loaded from .env file
+    posts_per_page: int = 10
+
+
+settings = Settings()  # type: ignore[call-arg] # Loaded from .env file
